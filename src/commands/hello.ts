@@ -1,12 +1,11 @@
 import { ApplyOptions } from '@sapphire/decorators';
 import { Command } from '@sapphire/framework';
-import { ApplicationCommandType, Message } from 'discord.js';
+import { ApplicationCommandType, EmbedBuilder, Message } from 'discord.js';
 
 @ApplyOptions<Command.Options>({
 	name: 'hello',
-	description: 'reply hello world'
+	description: 'Introduce the bot'
 })
-
 export class UserCommand extends Command {
 	// Register Chat Input and Context Menu command
 	public override registerApplicationCommands(registry: Command.Registry) {
@@ -45,19 +44,32 @@ export class UserCommand extends Command {
 	}
 
 	private async sendHello(interactionOrMessage: Message | Command.ChatInputCommandInteraction | Command.ContextMenuCommandInteraction) {
-		// const pingMessage =
-		// 	interactionOrMessage instanceof Message
-		// 		? await interactionOrMessage.channel.send({ content: 'Ping?' })
-		// 		: await interactionOrMessage.reply({ content: 'Ping?', fetchReply: true });
+		const username = interactionOrMessage.member;
+		const idUser = interactionOrMessage.member?.user.id;
+		const avatarUser = interactionOrMessage.member?.user.avatar;
 
-		const content = `Hello World!`;
+		const beforeMessage =
+			interactionOrMessage instanceof Message
+				? await interactionOrMessage.channel.send({ content: `replying to ${username}` })
+				: await interactionOrMessage.reply({ content: `replying to ${username}`, fetchReply: true });
 
-		if (interactionOrMessage instanceof Message) {
-			return interactionOrMessage.channel.send({ content });
-		}
+		const client = interactionOrMessage.client;
 
-		return interactionOrMessage.reply({
-			content: content
+		const content = `Hello, I'm *${client.user.username}*. **Nice to meet you!**`;
+
+		const embedContent = new EmbedBuilder()
+			.setColor(0x1cfc03)
+			.setDescription(content)
+			.setFooter({
+				text: `request from ${username?.user.username}`,
+				iconURL: `https://cdn.discordapp.com/avatars/${idUser}/${avatarUser}`
+			});
+
+		if (interactionOrMessage instanceof Message) return beforeMessage.edit({ content: '', embeds: [embedContent] });
+
+		return interactionOrMessage.editReply({
+			content: '',
+			embeds: [embedContent]
 		});
 	}
 }
