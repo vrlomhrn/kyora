@@ -1,6 +1,6 @@
 import { ApplyOptions } from '@sapphire/decorators';
 import { Command } from '@sapphire/framework';
-import { ApplicationCommandType, Message } from 'discord.js';
+import { ApplicationCommandType, Message, EmbedBuilder } from 'discord.js';
 
 type UrlProp = {
 	url: string;
@@ -58,11 +58,8 @@ export class UserCommand extends Command {
 					'X-API-KEY': `${process.env.API_KEY_NINJAAPI}`
 				}
 			});
-			const data = await response.json();
 
-			const quote = `"${data[0].quote}"\n\nBy ${data[0].author}`;
-
-			return quote;
+			return await response.json();
 		} catch (err: Err) {
 			console.log(err.message);
 			return err.message;
@@ -75,14 +72,25 @@ export class UserCommand extends Command {
 				? await interactionOrMessage.channel.send({ content: 'wait for random quote...' })
 				: await interactionOrMessage.reply({ content: 'wait for random quote...', fetchReply: true });
 
-		const content = await this.getQuote('https://api.api-ninjas.com/v1/quotes');
+		const data = await this.getQuote('https://api.api-ninjas.com/v1/quotes');
 
-		if (interactionOrMessage instanceof Message) {
-			return quoteMessage.edit({ content });
-		}
+		const avatarUser = interactionOrMessage.member?.user.avatar;
+		const idUser = interactionOrMessage.member?.user.id;
+
+		const embedMessage = new EmbedBuilder()
+			.setColor(0x1cfc03)
+			.setAuthor({
+				name: `replying to ${interactionOrMessage.member?.user.username}`,
+				iconURL: `https://cdn.discordapp.com/avatars/${idUser}/${avatarUser}`
+			})
+			.setTitle(`"${data[0].quote}"`)
+			.setDescription(`*-* ${data[0].author}`);
+
+		if (interactionOrMessage instanceof Message) return quoteMessage.edit({ content: '', embeds: [embedMessage] });
 
 		return await interactionOrMessage.editReply({
-			content
+			content: '',
+			embeds: [embedMessage]
 		});
 	}
 }
