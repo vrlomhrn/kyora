@@ -8,7 +8,7 @@ Created using [sapphire] and typescript.
 ### Prerequisite
 
 ```sh
-npm install or yarn
+npm install or yarn install
 ```
 
 ### Development
