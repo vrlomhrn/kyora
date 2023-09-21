@@ -599,9 +599,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"kana@workspace:.":
+"kleur@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "kleur@npm:3.0.3"
+  checksum: df82cd1e172f957bae9c536286265a5cdbd5eeca487cb0a3b2a7b41ef959fc61f8e7c0e9aeea9c114ccf2c166b6a8dd45a46fd619c1c569d210ecd2765ad5169
+  languageName: node
+  linkType: hard
+
+"kyora@workspace:.":
   version: 0.0.0-use.local
-  resolution: "kana@workspace:."
+  resolution: "kyora@workspace:."
   dependencies:
     "@sapphire/cli": ^1.6.1
     "@sapphire/decorators": ^6.0.1
@@ -623,13 +630,6 @@ __metadata:
     typescript: ^5.1.3
   languageName: unknown
   linkType: soft
-
-"kleur@npm:^3.0.3":
-  version: 3.0.3
-  resolution: "kleur@npm:3.0.3"
-  checksum: df82cd1e172f957bae9c536286265a5cdbd5eeca487cb0a3b2a7b41ef959fc61f8e7c0e9aeea9c114ccf2c166b6a8dd45a46fd619c1c569d210ecd2765ad5169
-  languageName: node
-  linkType: hard
 
 "locate-path@npm:^6.0.0":
   version: 6.0.0

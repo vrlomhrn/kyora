@@ -1,12 +1,7 @@
 import { ApplyOptions } from '@sapphire/decorators';
 import { Command } from '@sapphire/framework';
 import { ApplicationCommandType, Message, EmbedBuilder } from 'discord.js';
-
-type UrlProp = {
-	url: string;
-};
-
-type Err = any;
+import type { Url, Err } from '../lib/types';
 
 @ApplyOptions<Command.Options>({
 	name: 'quote',
@@ -49,7 +44,7 @@ export class UserCommand extends Command {
 		return this.sendQuote(interaction);
 	}
 
-	private async getQuote(url: UrlProp['url']) {
+	private async getQuote(url: Url) {
 		try {
 			const response = await fetch(url, {
 				method: 'GET',
@@ -79,12 +74,13 @@ export class UserCommand extends Command {
 
 		const embedMessage = new EmbedBuilder()
 			.setColor(0x1cfc03)
-			.setAuthor({
-				name: `replying to ${interactionOrMessage.member?.user.username}`,
-				iconURL: `https://cdn.discordapp.com/avatars/${idUser}/${avatarUser}`
-			})
 			.setTitle(`"${data[0].quote}"`)
-			.setDescription(`*-* ${data[0].author}`);
+			.setDescription(`*-* ${data[0].author}`)
+			.setTimestamp()
+			.setFooter({
+				text: `replying to ${interactionOrMessage.member?.user.username}`,
+				iconURL: `https://cdn.discordapp.com/avatars/${idUser}/${avatarUser}`
+			});
 
 		if (interactionOrMessage instanceof Message) return quoteMessage.edit({ content: '', embeds: [embedMessage] });
 

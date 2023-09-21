@@ -1,6 +1,6 @@
 import { ApplyOptions } from '@sapphire/decorators';
 import { Command } from '@sapphire/framework';
-import { ApplicationCommandType, Message } from 'discord.js';
+import { ApplicationCommandType, Message, EmbedBuilder } from 'discord.js';
 
 @ApplyOptions<Command.Options>({
 	name: 'rndompict',
@@ -46,17 +46,18 @@ export class UserCommand extends Command {
 	private async sendRandomPict(interactionOrMessage: Message | Command.ChatInputCommandInteraction | Command.ContextMenuCommandInteraction) {
 		const randomPictMessage =
 			interactionOrMessage instanceof Message
-				? await interactionOrMessage.channel.send({ content: 'randomPict?' })
-				: await interactionOrMessage.reply({ content: 'randomPict?', fetchReply: true });
+				? await interactionOrMessage.channel.send({ content: 'Sending a random picture...' })
+				: await interactionOrMessage.reply({ content: 'Sending random picture...', fetchReply: true });
 
-		const content = 'https://source.unsplash.com/random';
+		const EmbedMessage = new EmbedBuilder().setColor(0x1cfc03).setImage(`https://random.imagecdn.app/500/150`);
 
 		if (interactionOrMessage instanceof Message) {
-			return randomPictMessage.edit({ content });
+			return randomPictMessage.edit({ content: '', embeds: [EmbedMessage] });
 		}
 
 		return interactionOrMessage.editReply({
-			content: content
+			content: '',
+			embeds: [EmbedMessage]
 		});
 	}
 }
