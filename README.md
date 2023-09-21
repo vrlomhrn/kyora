@@ -8,7 +8,7 @@ Created using [sapphire] and typescript.
 ### Prerequisite
 
 ```sh
-npm install
+npm install or yarn
 ```
 
 ### Development
@@ -16,7 +16,7 @@ npm install
 This example can be run with `tsc-watch` to watch the files and automatically restart your bot.
 
 ```sh
-npm run watch:start
+npm run watch:start or yarn watch:start
 ```
 
 ### Production
