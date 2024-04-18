@@ -1,6 +1,6 @@
 import { ApplyOptions } from '@sapphire/decorators';
 import { Command } from '@sapphire/framework';
-import { ApplicationCommandType, Message } from 'discord.js';
+import { ApplicationCommandType, Message, EmbedBuilder } from 'discord.js';
 
 @ApplyOptions<Command.Options>({
 	name: 'Ping',
@@ -53,12 +53,13 @@ export class UserCommand extends Command {
 			pingMessage.createdTimestamp - interactionOrMessage.createdTimestamp
 		}ms.`;
 
-		if (interactionOrMessage instanceof Message) {
-			return pingMessage.edit({ content });
-		}
+		const embedContent = new EmbedBuilder().setColor(0x1cfc03).setDescription(content);
+
+		if (interactionOrMessage instanceof Message) return pingMessage.edit({ content: '', embeds: [embedContent] });
 
 		return interactionOrMessage.editReply({
-			content: content
+			content: '',
+			embeds: [embedContent]
 		});
 	}
 }

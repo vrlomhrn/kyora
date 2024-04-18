@@ -74,7 +74,7 @@ export class UserCommand extends Command {
 
 		const embedMessage = new EmbedBuilder()
 			.setColor(0x1cfc03)
-			.setTitle(`"${data[0].quote}"`)
+			.setTitle(`"*${data[0].quote}*"`)
 			.setDescription(`*-* ${data[0].author}`)
 			.setTimestamp()
 			.setFooter({

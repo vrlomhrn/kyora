@@ -53,15 +53,18 @@ export class UserCommand extends Command {
 				? await interactionOrMessage.channel.send({ content: `replying to ${username}` })
 				: await interactionOrMessage.reply({ content: `replying to ${username}`, fetchReply: true });
 
-		const client = interactionOrMessage.client;
+		const client = interactionOrMessage.client.user.username;
 
-		const content = `Hello, I'm *${client.user.username}*. **Nice to meet you!**`;
+		const clientUsername = username?.user.username;
+		const capitalName = (clientUsername?.charAt(0).toUpperCase() as string) + clientUsername?.slice(1);
+
+		const content = `Hi, My name is *${client}*. I was developed by Musenji. I'm currently still on development yet I'm ready to be used. Just send me some commands and I will replying to you :). Nice to meet you, **${capitalName}!**.`;
 
 		const embedContent = new EmbedBuilder()
 			.setColor(0x1cfc03)
 			.setDescription(content)
 			.setFooter({
-				text: `request from ${username?.user.username}`,
+				text: `request from ${capitalName}`,
 				iconURL: `https://cdn.discordapp.com/avatars/${idUser}/${avatarUser}`
 			});
 
